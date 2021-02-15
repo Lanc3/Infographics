@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './src/screens/splashScreen';
+import SearchScreen from './src/screens/searchScreen';
 
 const Stack = createStackNavigator();
 
@@ -9,6 +10,7 @@ function MyStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
