@@ -1,5 +1,5 @@
 import React ,{Component}from 'react';
-import {View ,Text, TextInput,StyleSheet,TouchableOpacity,ScrollView} from'react-native';
+import {View ,Text, Animated,StyleSheet,TouchableOpacity,ScrollView} from'react-native';
 import Logo from '../../assets/Logo.svg'
 
 export default class splashScreen extends Component {
@@ -7,17 +7,43 @@ export default class splashScreen extends Component {
     constructor({route,props,navigation}) {
       super(props);
       this.navigation = navigation;
+      this.state = {
+        startValue: new Animated.Value(0.5),
+        endValue: 0.9,
+      };
     }
-    onPress = () =>{
-        this.navigation.navigate("SearchScreen",{uri:'test'});
-        console.log("hello")
+
+    goNextScreen = () =>{
+        this.navigation.navigate("SearchScreen");
     };
+
+    componentDidMount() {
+      Animated.spring(this.state.startValue, {
+        toValue: this.state.endValue,
+        friction: 3,
+        useNativeDriver: true,
+      }).start(()=> {
+        this.goNextScreen();
+      });
+    };
+
     render() {
         return (
           <View style={styles.background}>
-              <View style={styles.logoContainer}>
+              <Animated.View
+                style={[
+                  styles.logoContainer,
+                  {
+                    transform: [
+                      {
+                        scale: this.state.startValue,
+                      },
+                    ],
+                  },
+                ]}
+              >
                 <Logo width={"90%"} height={"90%"} />
-              </View>
+              </Animated.View>
               <View>
                 <Text style={styles.poweredByText}>Powered By</Text>
               </View>
@@ -28,13 +54,6 @@ export default class splashScreen extends Component {
                   <View>
                     <Text style={styles.TechText}>Tech</Text>
                   </View>
-              </View>
-              <View>
-                <TouchableOpacity 
-                    style={styles.button}
-                    onPress={this.onPress}>
-                        <Text>button</Text>
-                </TouchableOpacity>
               </View>
           </View>
         );
