@@ -1,17 +1,28 @@
-import React ,{Component}from 'react';
-import {View ,Text, TextInput,StyleSheet,TouchableOpacity,ScrollView} from'react-native';
-
+import React ,{Component, useState}from 'react';
+import {View ,Text, TextInput,StyleSheet,ScrollView} from'react-native';
+import {Picker} from '@react-native-community/picker';
 
 export default class searchScreen extends Component {
 
     constructor({route,props,navigation}) {
       super(props);
-
+       
+      this.state = {
+        selectedValue:'null'
+      };
     }
  
     render() {
         return (
           <View style={styles.background}>
+            <Picker
+              selectedValue={this.state.selectedValue}
+              style={{ height: 50, width: 150 }}
+              onValueChange={(itemValue, itemIndex) => this.state.selectedValue(itemValue)}
+            >
+              <Picker.Item label="Eu West" value="euw1" />
+              <Picker.Item label="North fucking america" value="na" />
+            </Picker>
           </View>
         );
     }
