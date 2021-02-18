@@ -43,7 +43,7 @@ export default () => {
     const [matchResults,setMatchResults] = useState({});
     const [summonerNameResults,setSummonerNameResults] = useState("");
     const [winLossResults,setWinLossResults] = useState([]);
-    const [isReady,setIsReady] = useState("false");
+    const [isReady,setIsReady] = useState(false);
 
     const API_KEY = 'RGAPI-0cece86d-fdc8-466f-b2c6-32c6b49e86e3'
     const searchPlayerApi =  async (value) => {
@@ -69,7 +69,7 @@ export default () => {
            // getPlayerRank(result.id);
            // getChampionMastery(result.id);
            // setSummonerNameResults(searchTerm);
-           // setIsReady("Loading");
+            setIsReady(true);
         }).catch(error => {
             //Here is still promise
             //console.log(error);

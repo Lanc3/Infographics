@@ -1,5 +1,5 @@
 import React ,{Component, useState}from 'react';
-import {View ,Text, TextInput,StyleSheet,ScrollView} from'react-native';
+import {View ,Text, Image,StyleSheet,ScrollView} from'react-native';
 import SearchBar from '../components/searchBar'
 import Header from '../components/header'
 import useResults from '../hooks/useResults'
@@ -20,6 +20,10 @@ const searchScreen = () => {
             <Text style={styles.infoText}>summonerLevel : {searchResults.accountId}</Text>
             <Text style={styles.infoText}>id : {searchResults.id}</Text>
             <Text style={styles.infoText}>name : {searchResults.name}</Text>
+            {isReady ? <Image
+              style={styles.tinyLogo}
+              source={{uri: 'http://ddragon.leagueoflegends.com/cdn/11.4.1/img/profileicon/'+searchResults.profileIconId.toString()+'.png'}}
+            />: null}
             <Text style={styles.infoText}>profileIconId : {searchResults.profileIconId}</Text>
             <Text style={styles.infoText}>puuid : {searchResults.puuid}</Text>
             <Text style={styles.infoText}>revisionDate : {searchResults.revisionDate}</Text>
@@ -64,7 +68,11 @@ const searchScreen = () => {
       infoText:{
         color:'white',
         padding:3
-      }
+      },
+      tinyLogo: {
+        width: 50,
+        height: 50,
+      },
   });
 
   export default searchScreen;
