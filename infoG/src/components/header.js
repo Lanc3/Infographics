@@ -1,12 +1,19 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, Platform, StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCamera } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
+import Logo from '../../assets/Fonts.svg'
 
-export default function header({ title, onMenuPress }) {
+
+export default function header() {
   return (
     <View style={styles.container}>
-        <FontAwesomeIcon style={styles.plus} icon={faCamera} size={100}/>
+      <View style={styles.logo}>
+        <Logo width={"60%"} height={"60%"} />
+      </View>
+      <View>
+      <FontAwesomeIcon style={styles.plus} icon={faBars} size={50}/>
+      </View>
     </View>
   )
 };
@@ -14,13 +21,20 @@ export default function header({ title, onMenuPress }) {
 
 const styles = StyleSheet.create({
     plus:{
-        color: "#FF9933",
-         fontSize: 100,
-         alignSelf:'center',
-         marginTop:40
-         
+      flex:1,
+        color: "white",
+         fontSize: 50,
      },
      container:{
-         
+         flexDirection:'row',
+         borderBottomWidth:1,
+         borderBottomColor:'white',
+         maxHeight:150,
+         alignItems:'center'
+     },
+     logo:{
+       flex:1,
+       paddingTop:2,
+       alignSelf:'center'
      }
 });

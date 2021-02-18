@@ -45,9 +45,9 @@ export default () => {
     const [winLossResults,setWinLossResults] = useState([]);
     const [isReady,setIsReady] = useState("false");
 
-    const API_KEY = 'RGAPI-aa8c55d1-81b2-42b2-963c-04a79a985868'
-    const searchPlayerApi =  async searchTerm => {
-        await fetch(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${searchTerm}` ,{
+    const API_KEY = 'RGAPI-0cece86d-fdc8-466f-b2c6-32c6b49e86e3'
+    const searchPlayerApi =  async (value) => {
+        await fetch(`https://${value.region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${value.name}` ,{
             method: 'GET',
             headers: {
                 "Origin": "https://developer.riotgames.com",
@@ -62,12 +62,14 @@ export default () => {
         })
         .then(result => {
             //Successful request processing
-            setAccountIdResults(result.accountId);
-            getMatchList(result.accountId);
-            getPlayerRank(result.id);
-            getChampionMastery(result.id);
-            setSummonerNameResults(searchTerm);
-            setIsReady("Loading");
+            setSearchResults(result);
+            console.log(result)
+            //setAccountIdResults(result.accountId);
+            //getMatchList(result.accountId);
+           // getPlayerRank(result.id);
+           // getChampionMastery(result.id);
+           // setSummonerNameResults(searchTerm);
+           // setIsReady("Loading");
         }).catch(error => {
             //Here is still promise
             //console.log(error);

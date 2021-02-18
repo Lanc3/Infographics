@@ -1,31 +1,32 @@
 import React ,{Component, useState}from 'react';
 import {View ,Text, TextInput,StyleSheet,ScrollView} from'react-native';
-import {Picker} from '@react-native-community/picker';
+import SearchBar from '../components/searchBar'
+import Header from '../components/header'
+import useResults from '../hooks/useResults'
+const searchScreen = () => {
 
-export default class searchScreen extends Component {
-
-    constructor({route,props,navigation}) {
-      super(props);
-       
-      this.state = {
-        selectedValue:'null'
-      };
+    const [searchPlayerApi,championsKey,searchResults,rankedFlexResults,soloResults, masteryResults,winLossResults,isReady, errorMessage] = useResults();
+    const log = (value) =>{
+      console.log(value)
     }
  
-    render() {
+  
         return (
           <View style={styles.background}>
-            <Picker
-              selectedValue={this.state.selectedValue}
-              style={{ height: 50, width: 150 }}
-              onValueChange={(itemValue, itemIndex) => this.state.selectedValue(itemValue)}
-            >
-              <Picker.Item label="Eu West" value="euw1" />
-              <Picker.Item label="North fucking america" value="na" />
-            </Picker>
+            <Header />
+            <SearchBar
+            onSearchSubmit = {searchPlayerApi}
+            />
+            <Text style={styles.infoText}>summonerLevel : {searchResults.accountId}</Text>
+            <Text style={styles.infoText}>id : {searchResults.id}</Text>
+            <Text style={styles.infoText}>name : {searchResults.name}</Text>
+            <Text style={styles.infoText}>profileIconId : {searchResults.profileIconId}</Text>
+            <Text style={styles.infoText}>puuid : {searchResults.puuid}</Text>
+            <Text style={styles.infoText}>revisionDate : {searchResults.revisionDate}</Text>
+            <Text style={styles.infoText}>summonerLevel : {searchResults.summonerLevel}</Text>
           </View>
         );
-    }
+    
   }
   
   const styles = StyleSheet.create({
@@ -59,5 +60,11 @@ export default class searchScreen extends Component {
       TechText:{
           color:'#727272',
           fontSize:32
+      },
+      infoText:{
+        color:'white',
+        padding:3
       }
   });
+
+  export default searchScreen;
