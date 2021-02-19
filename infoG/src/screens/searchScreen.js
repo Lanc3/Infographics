@@ -1,15 +1,39 @@
-import React ,{Component, useState}from 'react';
-import {View ,Text, Image,StyleSheet,ScrollView} from'react-native';
-import SearchBar from '../components/searchBar'
-import Header from '../components/header'
-import useResults from '../hooks/useResults'
+import React ,{Component,useEffect, useState}from 'react';
+import {View ,FlatList,Text, Image,StyleSheet,ScrollView} from'react-native';
+import SearchBar from '../components/searchBar';
+import Header from '../components/header';
+import useResults from '../hooks/useResults';
+import UserDisplay from '../components/userDisplay';
+import AsyncStorage from '@react-native-community/async-storage';
+import HistoryBar from '../components/historyBar';
+
 const searchScreen = () => {
 
-    const [searchPlayerApi,championsKey,searchResults,rankedFlexResults,soloResults, masteryResults,winLossResults,isReady, errorMessage] = useResults();
+    const [searchPlayerApi,selectedRegion,championsKey,searchResults,rankedFlexResults,soloResults, masteryResults,winLossResults,isReady, errorMessage] = useResults();
+    const [ historyArray, setHistoryArray ] = useState([]);
     const log = (value) =>{
       console.log(value)
     }
- 
+    const retrieveHistory = async () => {
+      try {
+          const value = await AsyncStorage.getItem('SearchResults')
+          if (value !== null) {
+              // We have data!!
+              setHistoryArray(JSON.parse(value));
+            }
+            else{
+             
+            }
+          } catch (error) {
+              
+              console.log("no data")
+          }
+        }
+        retrieveHistory();
+        useEffect(() => {
+          retrieveHistory();
+      }, []);
+   
   
         return (
           <View style={styles.background}>
@@ -17,17 +41,20 @@ const searchScreen = () => {
             <SearchBar
             onSearchSubmit = {searchPlayerApi}
             />
-            <Text style={styles.infoText}>summonerLevel : {searchResults.accountId}</Text>
-            <Text style={styles.infoText}>id : {searchResults.id}</Text>
-            <Text style={styles.infoText}>name : {searchResults.name}</Text>
-            {isReady ? <Image
-              style={styles.tinyLogo}
-              source={{uri: 'http://ddragon.leagueoflegends.com/cdn/11.4.1/img/profileicon/'+searchResults.profileIconId.toString()+'.png'}}
-            />: null}
-            <Text style={styles.infoText}>profileIconId : {searchResults.profileIconId}</Text>
-            <Text style={styles.infoText}>puuid : {searchResults.puuid}</Text>
-            <Text style={styles.infoText}>revisionDate : {searchResults.revisionDate}</Text>
-            <Text style={styles.infoText}>summonerLevel : {searchResults.summonerLevel}</Text>
+            <HistoryBar/>
+            <FlatList 
+                vertical
+                data={historyArray}
+                keyExtractor={item => item.id}
+                renderItem={({item}) => (
+                    <View >
+                        <Image style={styles.flairImage} source={{uri:item.uri}}></Image>
+                        <UserDisplay name={item.name} region={item.region} icon ={item.icon} level ={item.level} splash={item.backgroundID}/>
+                    </View>
+                    
+                )}
+            />
+            
           </View>
         );
     
