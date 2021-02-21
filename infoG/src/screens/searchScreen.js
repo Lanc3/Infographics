@@ -11,9 +11,7 @@ const searchScreen = () => {
 
     const [searchPlayerApi,selectedRegion,championsKey,searchResults,rankedFlexResults,soloResults, masteryResults,winLossResults,isReady, errorMessage] = useResults();
     const [ historyArray, setHistoryArray ] = useState([]);
-    const log = (value) =>{
-      console.log(value)
-    }
+   
     const retrieveHistory = async () => {
       try {
           const value = await AsyncStorage.getItem('SearchResults')
@@ -48,7 +46,6 @@ const searchScreen = () => {
                 keyExtractor={item => item.id}
                 renderItem={({item}) => (
                     <View >
-                        <Image style={styles.flairImage} source={{uri:item.uri}}></Image>
                         <UserDisplay name={item.name} region={item.region} icon ={item.icon} level ={item.level} splash={item.backgroundID}/>
                     </View>
                     

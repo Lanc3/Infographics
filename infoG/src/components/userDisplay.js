@@ -6,9 +6,9 @@ import Logo from '../../assets/Fonts.svg'
 
 
 export default function userDisplay({name,region,icon,level,splash}) {
-  
+  const image = require('../../assets/back.jpg')
   return (
-    <ImageBackground source={{uri: 'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Sona_0.jpg'}} style={styles.container}>
+    <ImageBackground source={{uri:splash}} style={styles.container}>
       <View style={styles.iconFormat}>
       <Image
               style={styles.tinyLogo}
@@ -17,7 +17,7 @@ export default function userDisplay({name,region,icon,level,splash}) {
         <Text style={styles.textFormat}>{level}</Text>
       </View>
       <View>
-        <Text style={styles.textFormat}>{name}#{region} </Text>
+        <Text style={styles.textFormat}>{name}#{region}</Text>
       </View>
     </ImageBackground>
   )

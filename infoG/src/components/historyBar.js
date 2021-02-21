@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default function historyBar() {
     const clearHistory = () =>{
         try {
-            console.log("testing")
             AsyncStorage.setItem(
              'SearchResults',
              JSON.stringify([])

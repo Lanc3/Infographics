@@ -1,33 +1,43 @@
-import React ,{Component}from 'react';
+import React ,{Component,useState, useEffect}from 'react';
 import {View ,Text, Animated,StyleSheet,TouchableOpacity,ScrollView} from'react-native';
-import Logo from '../../assets/Logo.svg'
+import Logo from '../../assets/Logo.svg';
+import DataDragon from '../hooks/useDataDragon';
+import ProgressBar from 'react-native-progress/Bar';
 
-export default class splashScreen extends Component {
+const splashScreen = ({route,props,navigation}) => {
 
-    constructor({route,props,navigation}) {
-      super(props);
-      this.navigation = navigation;
-      this.state = {
-        startValue: new Animated.Value(0.5),
-        endValue: 0.9,
-      };
-    }
-
-    goNextScreen = () =>{
-        this.navigation.navigate("SearchScreen");
+  const [startValue,setStartValue] = useState(new Animated.Value(0.5));
+  const [endValue,setEndValue] = useState(0.9);
+  const [getVersion,version,championsKey,isReady,progress] = DataDragon();
+    
+    const goNextScreen = () =>{
+        //this.navigation.navigate("SearchScreen");
+        
     };
+    
 
-    componentDidMount() {
-      Animated.spring(this.state.startValue, {
-        toValue: this.state.endValue,
+    useEffect(() => {
+      componentDidMount();
+      getVersion();
+  }, []);
+
+  useEffect(() =>{
+   if(progress >= 1)
+   {
+     navigation.navigate("SearchScreen");
+   }
+  });
+
+    const componentDidMount = () =>{
+      Animated.spring(startValue, {
+        toValue: endValue,
         friction: 3,
         useNativeDriver: true,
       }).start(()=> {
-        this.goNextScreen();
+        //this.goNextScreen();
       });
     };
 
-    render() {
         return (
           <View style={styles.background}>
               <Animated.View
@@ -36,7 +46,7 @@ export default class splashScreen extends Component {
                   {
                     transform: [
                       {
-                        scale: this.state.startValue,
+                        scale: startValue,
                       },
                     ],
                   },
@@ -55,9 +65,13 @@ export default class splashScreen extends Component {
                     <Text style={styles.TechText}>Tech</Text>
                   </View>
               </View>
+              <View style={styles.progressBar}>
+                <ProgressBar progress={progress} width={200} color={'#B5540B'}/>
+                
+              </View>
+              
           </View>
         );
-    }
   }
   
   const styles = StyleSheet.create({
@@ -102,5 +116,10 @@ export default class splashScreen extends Component {
         borderWidth:3,
         borderColor:'white',
         width:'90%'
+      },
+      progressBar:{
+        alignItems:'center'
       }
   });
+
+  export default splashScreen;

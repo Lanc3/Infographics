@@ -47,8 +47,9 @@ export default () => {
     const [selectedRegion, setSelectedRegion] = useState('euw1');
     
 
-    const API_KEY = 'RGAPI-ca0fea8f-d215-40da-85be-2b7ad367d0c3'
+    const API_KEY = 'RGAPI-b28bd2c0-d15e-4ac7-ac6a-4bb8ee4ed9b6'
     const searchPlayerApi =  async (value) => {
+        setIsReady(false);
         await fetch(`https://${value.region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${value.name}` ,{
             method: 'GET',
             headers: {
@@ -64,18 +65,9 @@ export default () => {
         })
         .then(result => {
             //Successful request processing
-            getChampionMastery(result.id);
-            setIsReady(true);
-            saveSearchResults(result,value.region,masteryResults[0]);
             setSearchResults(result);
             setSelectedRegion(value.region);
-            setAccountIdResults(result.accountId);
-            //getMatchList(result.accountId);
-           // getPlayerRank(result.id);
-            
-            setSummonerNameResults(searchTerm);
-            console.log("finished")
-            
+            getChampionMastery(result,value.region);
         }).catch(error => {
             //Here is still promise
             //console.log(error);
@@ -83,28 +75,29 @@ export default () => {
         })
     };
 
-    const saveSearchResults = async (results,regionResults,championID) => {
+    const saveSearchResults = async (results,regionResults,splashURI) => {
         
         try {
             const value = await AsyncStorage.getItem('SearchResults')
             if (value !== null) {
                 // We have data!!
                 
-                let array = JSON.parse(value);
+                const array = JSON.parse(value);
                 
-                array.push({name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:championID})
-                let uniqueSet = new Set(array);
-                let uniqueArray = [...uniqueSet];
+                array.push({name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:splashURI})
+
+                const obj = [...new Map(array.map(item => [JSON.stringify(item), item])).values()];
                 try {
                     
                     AsyncStorage.setItem(
                      'SearchResults',
-                     JSON.stringify(uniqueArray)
+                     JSON.stringify(obj)
                    );
-               
+                   setIsReady(true);
                  } catch (error) {
                    // Error saving data
-                   console.log("could not create a save in history")
+                   console.log("could not create a save in history");
+                   setIsReady(false);
                  }
             }
               else{
@@ -112,9 +105,9 @@ export default () => {
                    
                     AsyncStorage.setItem(
                      'SearchResults',
-                     JSON.stringify([{name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:championID}])
+                     JSON.stringify([{name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:splashURI}])
                    );
-               
+                   setIsReady(true);
                  } catch (error) {
                    // Error saving data
                    console.log("could not create a save in history")
@@ -126,7 +119,7 @@ export default () => {
             }
     }
 
-    const getPlayerRank = async encryptedSummonerId => {
+    const getPlayerRank = async (results,regionResults) => {
         await fetch(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${encryptedSummonerId}` ,{
             method: 'GET',
             headers: {
@@ -152,8 +145,8 @@ export default () => {
         })
     };
 
-    const getChampionMastery = async encryptedSummonerId => {
-        await fetch(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${encryptedSummonerId}` ,{
+    const getChampionMastery = async (results,regionResults) => {
+        await fetch(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${results.id}` ,{
             method: 'GET',
             headers: {
                 "Origin": "https://developer.riotgames.com",
@@ -168,14 +161,39 @@ export default () => {
         })
         .then(result => {
             //Successful request processing
-            setMasteryResults(result[0]);
-            console.log(result[0])
+
+            matchChampionIDtoSplash(results,regionResults,result[0].championId);
+         
         }).catch(error => {
             //Here is still promise
             console.log(error);
             
         })
     };
+    const matchChampionIDtoSplash = async (results,regionResults,championID) => {
+        try 
+        {
+            const value = await AsyncStorage.getItem('DataDragonResults');
+            
+            if (value !== null) 
+            {
+                
+                const obj = JSON.parse(value);
+                
+                obj.championKeyToName.forEach(element => {
+                    
+                    if(element.key.toString() === championID.toString())
+                    {
+                        saveSearchResults(results,regionResults,element.splashUri);
+                    }
+                });
+            }
+        }
+        catch(error)
+        {
+            console.log("failed to retrieve data")
+        }
+    }
 
     const getMatchList = async encryptedAccountId => {
         await fetch(`https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/${encryptedAccountId}?queue=420&endIndex=50&beginIndex=0` ,{
@@ -278,18 +296,18 @@ export default () => {
             array.push({id:key, total:value['total'], wins:value['wins'], losses:value['losses']});
         }
         setWinLossResults(array);
-        setIsReady("true");
+        
     };
 
     const getTopThreeMasteries = arrayOfChampions => {
         let topThreeList = [];
-        console.log(topThreeList)
+        //console.log(topThreeList)
         for(let i = 0; i < 2; i++)
         {
             topThreeList.push(arrayOfChampions[i]);
         }
         setMasteryResults(topThreeList);
-        console.log(topThreeList)
+        //console.log(topThreeList)
     };
 
     const createPlayerData  = arrayOfQueues => {
@@ -365,7 +383,7 @@ export default () => {
     };
     
     useEffect(() => {
-        getVersion();
+        //getVersion();
     }, []);
 
 
