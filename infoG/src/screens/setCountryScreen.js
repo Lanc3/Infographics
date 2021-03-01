@@ -1,30 +1,22 @@
 import React ,{Component,useEffect, useState}from 'react';
-import { View, Animated, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, Animated, Text, ImageBackground, Platform, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../../assets/Fonts.svg';
+import Header from '../components/header';
+import DrawerMenu from '../components/drawerMenu';
+import BackgroundSVG from '../../assets/circut.png';
 
 
 
-export default function header({navi}) {
+export default function setCountryScreen({route,props,navigation}) {
 
-
-  
-  const onPress =()=>{
-    if(navi)
-    {
-      navi.navigate("SearchScreen");
-    }
-
-  };
 
   return (
     <View style={styles.container}>
-      
+        <DrawerMenu navi={navigation}/>
+        <Header navi={navigation}/>       
 
-      <TouchableOpacity style={styles.logo} onPress={onPress}>
-        <Logo width={"60%"} height={"60%"} />
-      </TouchableOpacity>
     </View>
   )
 };
@@ -37,12 +29,9 @@ const styles = StyleSheet.create({
          fontSize: 50,
      },
      container:{
-         flexDirection:'row',
-         borderBottomWidth:1,
-         borderBottomColor:'#00e5bf',
-         maxHeight:150,
-         alignItems:'center',
-         zIndex:1,
+        backgroundColor:'#3A3A3A',
+        height:'100%',
+        flexDirection:'column'
          
      },
      logo:{

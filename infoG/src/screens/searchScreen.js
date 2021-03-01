@@ -72,12 +72,12 @@ const searchScreen = ({route,props,navigation}) => {
         flexDirection:'column',
         alignItems:'center',
         height:'50%',
-        borderColor:'white',
+        borderColor:'#00e5bf',
         marginBottom:-50,
         marginTop:150
       },
       background:{
-        backgroundColor:'#3A3A3A',
+        backgroundColor:'#050019',
         height:'100%',
         flexDirection:'column',
         zIndex:0,

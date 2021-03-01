@@ -3,28 +3,24 @@ import { View, Animated, Text, TouchableOpacity, Platform, StyleSheet } from 're
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../../assets/Fonts.svg';
+import Header from '../components/header';
+import DrawerMenu from '../components/drawerMenu';
 
 
+export default function setPhotoScreen({route,props,navigation}) {
 
-export default function header({navi}) {
-
-
-  
-  const onPress =()=>{
-    if(navi)
-    {
-      navi.navigate("SearchScreen");
-    }
-
-  };
 
   return (
     <View style={styles.container}>
-      
+        <DrawerMenu navi={navigation}/>
+        <Header navi={navigation}/>      
 
-      <TouchableOpacity style={styles.logo} onPress={onPress}>
+      <View style={styles.logo}>
         <Logo width={"60%"} height={"60%"} />
-      </TouchableOpacity>
+      </View>
+      <View>
+      
+      </View>
     </View>
   )
 };
@@ -37,12 +33,9 @@ const styles = StyleSheet.create({
          fontSize: 50,
      },
      container:{
-         flexDirection:'row',
-         borderBottomWidth:1,
-         borderBottomColor:'#00e5bf',
-         maxHeight:150,
-         alignItems:'center',
-         zIndex:1,
+        backgroundColor:'#050019',
+        height:'100%',
+        flexDirection:'column'
          
      },
      logo:{

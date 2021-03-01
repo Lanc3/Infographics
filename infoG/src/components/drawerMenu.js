@@ -10,8 +10,22 @@ export default function drawerMenu({navi}) {
     const [drawerAnimation,setDrawerAnimation] = useState(new Animated.Value(0));
     const [endValue,setEndValue] = useState(200);
     const [toggle,setToggle] = useState(false);
-    const onNavigate = ()=>{
-        navi.navigate("SearchScreen");
+
+   
+    const onName = ()=>{
+        navi.navigate("SetNameScreen");
+    };
+    const onPhoto = ()=>{
+        navi.navigate("SetPhotoScreen");
+    };
+    const onAge = ()=>{
+        navi.navigate("SetAgeScreen");
+    };
+    const onPosition = ()=>{
+        navi.navigate("SetRoleScreen");
+    };
+    const onAboutUS = ()=>{
+        navi.navigate("AboutUsScreen");
     };
     const onPressOpen =()=>{
         if(!toggle)
@@ -34,6 +48,15 @@ export default function drawerMenu({navi}) {
                 }).start();
         }
        
+    };
+
+    const makeClose =() =>{
+        Animated.timing(drawerAnimation, 
+            {
+            toValue: 0,
+            duration: 1,
+            useNativeDriver:true
+            }).start();
     };
 
   return (
@@ -59,20 +82,20 @@ export default function drawerMenu({navi}) {
                             showsVerticalScrollIndicator={false}
                             showsHorizontalScrollIndicator={false}
                         >
-                        <TouchableOpacity onPress={onNavigate}>
+                        <TouchableOpacity onPress={onName}>
                         <Text style={styles.menuText}>Set Name</Text>
                         </TouchableOpacity>
                         
-                        <TouchableOpacity onPress={onNavigate}>
+                        <TouchableOpacity onPress={onPhoto}>
                         <Text style={styles.menuText}>Set Photo</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={onNavigate}>
+                        <TouchableOpacity onPress={onAge}>
                         <Text style={styles.menuText}>Set Age</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={onNavigate}>
-                        <Text style={styles.menuText}>Set Position</Text>
+                        <TouchableOpacity onPress={onPosition}>
+                        <Text style={styles.menuText}>Set Role</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={onNavigate}>
+                        <TouchableOpacity onPress={onAboutUS}>
                         <Text style={styles.menuText}>About Us</Text>
                         </TouchableOpacity>
                         
@@ -90,7 +113,7 @@ const windowWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     plus:{
       flex:1,
-        color: "white",
+        color: "#00e5bf",
          fontSize: 50,
      },
      container:{
@@ -103,7 +126,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         left:windowWidth,
         top:90,
-        borderColor:'white',
+        borderColor:'#00e5bf',
         borderWidth:1,
         zIndex:1,
         
@@ -118,9 +141,10 @@ const styles = StyleSheet.create({
         left:windowWidth-60,
         top:20,
         zIndex:2
+        
      },
      testingBounds:{
-        borderColor:'white',
+        borderColor:'#00e5bf',
         borderWidth:1,
         zIndex:2,
         alignItems:'center'
@@ -131,6 +155,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         alignSelf:'center',
         fontSize:25,
-        textDecorationLine: 'underline'
+        borderBottomWidth:1,
+        borderBottomColor:'#d9a718',
     },
 });

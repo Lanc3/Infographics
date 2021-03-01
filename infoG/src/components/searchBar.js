@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 export default function searchBar({userName,onUserName,onSearchSubmit}) {
-    const [selectedValue, setSelectedValue] = useState("EUW1");
+    const [selectedValue, setSelectedValue] = useState("br1");
     const [userNameValue,setUserNameValue] = useState("userName");
   return (
     <View style={styles.container}>
@@ -53,12 +53,13 @@ const styles = StyleSheet.create({
     plus:{
       flex:1,
         color: "white",
-         fontSize: 50
+         fontSize: 50,
+         marginRight:10
      },
      container:{
          flexDirection:'row',
          borderBottomWidth:1,
-         borderBottomColor:'white',
+         borderBottomColor:'#00e5bf',
          maxHeight:150,
          alignItems:'center'
      },
@@ -68,20 +69,29 @@ const styles = StyleSheet.create({
        alignSelf:'center'
      },
      inputStyle : {
-         flex : 1,
+         flex : 2,
          fontSize: 18,
+         minWidth:100,
+         width:220,
          color:'white',
          alignSelf:'center',
-         marginLeft:-320,
+         marginLeft:-220,
          borderLeftWidth:1,
-         borderLeftColor:'white'
+         borderLeftColor:'#00e5bf',
      },
      picker:{
         height:50,
         width:110,
-        color:'white'
+        color:'white',
+        marginLeft:10
      },
      inputLayout:{
         justifyContent:'flex-start'
+     },
+     testingBounds:{
+        borderColor:'red',
+        borderWidth:1,
+        zIndex:2,
+        alignItems:'center'
      }
 });
