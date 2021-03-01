@@ -9,7 +9,7 @@ const splashScreen = ({route,props,navigation}) => {
   const [startValue,setStartValue] = useState(new Animated.Value(0.5));
   const [endValue,setEndValue] = useState(0.9);
   const [getVersion,version,championsKey,isReady,progress] = DataDragon();
-    
+  const [animationIsFinished,setAnimationIsFinished] = useState(false);
     const goNextScreen = () =>{
         //this.navigation.navigate("SearchScreen");
         
@@ -22,7 +22,7 @@ const splashScreen = ({route,props,navigation}) => {
   }, []);
 
   useEffect(() =>{
-   if(progress >= 1)
+   if(progress >= 1 && animationIsFinished === true)
    {
      navigation.navigate("SearchScreen");
    }
@@ -34,7 +34,7 @@ const splashScreen = ({route,props,navigation}) => {
         friction: 3,
         useNativeDriver: true,
       }).start(()=> {
-        //this.goNextScreen();
+        setAnimationIsFinished(true);
       });
     };
 

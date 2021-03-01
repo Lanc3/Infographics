@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import useKey from '../secret/api';
 
 export default () => {
     const winLossChamp = new Map();
@@ -43,13 +43,13 @@ export default () => {
     const [matchResults,setMatchResults] = useState({});
     const [summonerNameResults,setSummonerNameResults] = useState("");
     const [winLossResults,setWinLossResults] = useState([]);
-    const [isReady,setIsReady] = useState(false);
+    const [isReady,setIsReady] = useState("false");
     const [selectedRegion, setSelectedRegion] = useState('euw1');
-    
+    const [API_KEY] = useKey();
 
-    const API_KEY = 'RGAPI-b28bd2c0-d15e-4ac7-ac6a-4bb8ee4ed9b6'
+    //const API_KEY = 'RGAPI-8fa96e0d-32db-4ac1-a305-186fe2f965b7'
     const searchPlayerApi =  async (value) => {
-        setIsReady(false);
+        setIsReady("searching");
         await fetch(`https://${value.region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${value.name}` ,{
             method: 'GET',
             headers: {
@@ -74,9 +74,10 @@ export default () => {
             
         })
     };
-
+    //must add ID for key extractor
     const saveSearchResults = async (results,regionResults,splashURI) => {
-        
+        const uniqueKey = ""+results.id+"name"+results.name+"region"+regionResults;
+
         try {
             const value = await AsyncStorage.getItem('SearchResults')
             if (value !== null) {
@@ -84,7 +85,7 @@ export default () => {
                 
                 const array = JSON.parse(value);
                 
-                array.push({name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:splashURI})
+                array.push({idKey:uniqueKey,name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:splashURI})
 
                 const obj = [...new Map(array.map(item => [JSON.stringify(item), item])).values()];
                 try {
@@ -93,11 +94,11 @@ export default () => {
                      'SearchResults',
                      JSON.stringify(obj)
                    );
-                   setIsReady(true);
+                   setIsReady("saving");
                  } catch (error) {
                    // Error saving data
                    console.log("could not create a save in history");
-                   setIsReady(false);
+                   setIsReady("savingFail");
                  }
             }
               else{
@@ -105,9 +106,9 @@ export default () => {
                    
                     AsyncStorage.setItem(
                      'SearchResults',
-                     JSON.stringify([{name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:splashURI}])
+                     JSON.stringify([{idKey:uniqueKey,name:results.name,region:regionResults,icon:results.profileIconId,level:results.summonerLevel,backgroundID:splashURI}])
                    );
-                   setIsReady(true);
+                   setIsReady("saving");
                  } catch (error) {
                    // Error saving data
                    console.log("could not create a save in history")
@@ -144,9 +145,9 @@ export default () => {
             
         })
     };
-
+//need to add new image if the player has no masteries at all
     const getChampionMastery = async (results,regionResults) => {
-        await fetch(`https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${results.id}` ,{
+        await fetch(`https://${regionResults}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${results.id}` ,{
             method: 'GET',
             headers: {
                 "Origin": "https://developer.riotgames.com",
@@ -161,8 +162,15 @@ export default () => {
         })
         .then(result => {
             //Successful request processing
-
-            matchChampionIDtoSplash(results,regionResults,result[0].championId);
+            if(result === undefined || result.length == 0)
+            {
+                matchChampionIDtoSplash(results,regionResults,53);
+            }
+            else
+            {
+                matchChampionIDtoSplash(results,regionResults,result[0].championId);
+            }
+            
          
         }).catch(error => {
             //Here is still promise

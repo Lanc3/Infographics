@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import useKey from '../secret/api';
 
 
 export default () => {
@@ -26,8 +27,8 @@ export default () => {
     const [progress,setProgress] = useState(0.0);
     
 
-    const API_KEY = 'RGAPI-b28bd2c0-d15e-4ac7-ac6a-4bb8ee4ed9b6';
-
+    //const API_KEY = 'RGAPI-8fa96e0d-32db-4ac1-a305-186fe2f965b7';
+    const [API_KEY] = useKey();
 
     const saveDataDragonResults = async (results) => {
         try {  
