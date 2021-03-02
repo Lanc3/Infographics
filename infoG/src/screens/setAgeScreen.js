@@ -13,7 +13,7 @@ export default function setAgeScreen({route,props,navigation}) {
 
     const saveData = (value) => {
         
-        console.log("saved")
+
     };
 
   return (

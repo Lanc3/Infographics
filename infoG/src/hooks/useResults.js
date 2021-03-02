@@ -70,7 +70,7 @@ export default () => {
             getChampionMastery(result,value.region);
         }).catch(error => {
             //Here is still promise
-            //console.log(error);
+            
             
         })
     };
@@ -97,7 +97,7 @@ export default () => {
                    setIsReady("saving");
                  } catch (error) {
                    // Error saving data
-                   console.log("could not create a save in history");
+                  
                    setIsReady("savingFail");
                  }
             }
@@ -111,12 +111,12 @@ export default () => {
                    setIsReady("saving");
                  } catch (error) {
                    // Error saving data
-                   console.log("could not create a save in history")
+
                  }
               }
             } catch (error) {
                 
-                console.log("failed to retrieve data")
+
             }
     }
 
@@ -138,10 +138,10 @@ export default () => {
             //Successful request processing
             createPlayerData(result);
             
-            //console.log(result)
+
         }).catch(error => {
             //Here is still promise
-            //console.log(error);
+
             
         })
     };
@@ -174,7 +174,7 @@ export default () => {
          
         }).catch(error => {
             //Here is still promise
-            console.log(error);
+
             
         })
     };
@@ -199,7 +199,7 @@ export default () => {
         }
         catch(error)
         {
-            console.log("failed to retrieve data")
+            
         }
     }
 
@@ -223,7 +223,7 @@ export default () => {
             setWinRateByChampion(result.matches);
         }).catch(error => {
             //Here is still promise
-            console.log(error);
+
             
         })
     };
@@ -259,10 +259,10 @@ export default () => {
             else{
                 participantId = 1;
             }
-            //console.log(result['teams'][participantId]['win'])
+
             if(result['teams'][participantId]['win'] === 'Win'){
                 return "win";
-                //console.log(winLossChamp.get(champion))
+
             }
             else if(result['teams'][participantId]['win'] === 'Fail'){
                 return "loss";
@@ -272,7 +272,7 @@ export default () => {
             }
         }).catch(error => {
             //Here is still promise
-            //console.log(error); 
+
         })
     };
     const setWinRateByChampion = async matches => {
@@ -290,7 +290,7 @@ export default () => {
             for(let i = 0; i<value['games'].length;i++){
                 await getMatchByGameId(value['games'][i]).then( response => {
                     if(response === "win"){
-                        //console.log("win")
+ 
                         value['wins']++;
                     }
                     else{
@@ -309,13 +309,13 @@ export default () => {
 
     const getTopThreeMasteries = arrayOfChampions => {
         let topThreeList = [];
-        //console.log(topThreeList)
+
         for(let i = 0; i < 2; i++)
         {
             topThreeList.push(arrayOfChampions[i]);
         }
         setMasteryResults(topThreeList);
-        //console.log(topThreeList)
+ 
     };
 
     const createPlayerData  = arrayOfQueues => {
@@ -350,7 +350,7 @@ export default () => {
             getDataDragon(result[0]);
         }).catch(error => {
             //Here is still promise
-            //console.log(error);
+
             
         })
     };
@@ -375,7 +375,7 @@ export default () => {
             
         }).catch(error => {
             //Here is still promise
-            //console.log(error);
+
            
         })
     };

@@ -12,7 +12,7 @@ export default function historyBar() {
        
         } catch (error) {
            // Error saving data
-           console.log("could not create a save in history")
+           
         }
     };
   return (

@@ -38,7 +38,7 @@ export default () => {
              setProgress(1);
         } catch (error) {
                 // Error saving data
-                console.log("could not save champions")
+                
         }
     }
 
@@ -67,7 +67,7 @@ export default () => {
             getDataDragon(result[0]);
         }).catch(error => {
             //Here is still promise
-            //console.log(error);
+            /
             
         })
     };
@@ -93,7 +93,7 @@ export default () => {
             
         }).catch(error => {
             //Here is still promise
-            //console.log(error);
+          
            
         })
     };

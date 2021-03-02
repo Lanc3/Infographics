@@ -12,7 +12,7 @@ export default function setRoleScreen({route,props,navigation}) {
 
     const saveData = (value) => {
         
-        console.log("saved")
+
     };
 
   return (

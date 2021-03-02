@@ -27,7 +27,7 @@ const searchScreen = ({route,props,navigation}) => {
             }
           } catch (error) {
               
-              console.log("no data")
+
           }
         }
         retrieveHistory();

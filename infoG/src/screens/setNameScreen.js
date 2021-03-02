@@ -14,7 +14,7 @@ export default function setNameScreen({route,props,navigation}) {
 
     const saveData = (value) => {
         
-        console.log("saved")
+
     };
 
   return (
